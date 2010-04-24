@@ -151,6 +151,9 @@ int main(void)
     /* Get raw scan codes from keyboard. */
     if (0 != scanmode())
     {
+        printf("Please note that this program will only work in the FreeBSD "
+               "console\n");
+        fflush(stdout);
         die(-1);
     }
     
