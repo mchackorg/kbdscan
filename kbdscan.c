@@ -1,5 +1,5 @@
 /*
- * kbdscan.c 2010-04-22 2
+ * kbdscan.c
  *
  * Small program to set the FreeBSD console keyboard in raw scancode
  * mode and show scancodes of keys pressed and released.
@@ -40,7 +40,7 @@ int ttyreset(int ttyfd);
 int xlatemode(void);
 int scanmode(void);
 void die(int status);
-void ttyraw(int ttyfd);
+int ttyraw(int ttyfd);
 
 /* Save original terminal settings. */
 int ttysave(int ttyfd)
@@ -101,7 +101,7 @@ void die(int status)
  * Set terminal in raw mode, e.g. no processing of special characters,
  * no echo.
  */
-void ttyraw(int ttyfd)
+int ttyraw(int ttyfd)
 {
     struct termios raw;
 
@@ -120,8 +120,10 @@ void ttyraw(int ttyfd)
     if (0 != tcsetattr(ttyfd, TCSAFLUSH, &raw))
     {
         perror("Can't set raw mode");
-        die(-1);
+        return -1;
     }
+
+    return 0;
 }
 
 int main(void)
@@ -141,10 +143,16 @@ int main(void)
     }
     
     /* Set terminal in raw mode, no echo. */
-    ttyraw(ttyfd);
+    if (0 != ttyraw(ttyfd))
+    {
+        die(-1);
+    }
 
     /* Get raw scan codes from keyboard. */
-    scanmode();
+    if (0 != scanmode())
+    {
+        die(-1);
+    }
     
     for (;;)
     {
