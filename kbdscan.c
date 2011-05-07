@@ -24,6 +24,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <unistd.h>
 #include <termios.h>
 #include <sys/consio.h>
@@ -131,7 +132,7 @@ int main(void)
     fd_set inset;
     struct timeval timeout;
     int ttyfd = 0; /* standard input */
-    int key;
+    uint8_t key;
     
     /* FIXME: Set up signal handlers that calls ttyreset. */
 
@@ -204,7 +205,7 @@ int main(void)
                 }
                 else
                 {
-                    printf("Scancode %u pressed.\r\n", key & 0x7f);
+                    printf("Scancode %u pressed.\r\n", key);
                 }
 
                 fflush(stdout);
