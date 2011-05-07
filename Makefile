@@ -1,8 +1,8 @@
-VERSION=20100427
+VERSION=20110507
 DIST=kbdscan-$(VERSION)
 DISTFILES=Makefile README kbdscan.c
 
-CFLAGS=-g -W -Wall -Wextra -ansi -pedantic
+CFLAGS=-g -W -Wall -Wextra -std=c99
 
 TARGETS=kbdscan
 
