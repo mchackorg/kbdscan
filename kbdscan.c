@@ -199,12 +199,12 @@ int main(void)
                 */
                 if (key & 0x80)
                 {
-                    printf("Scancode %u released, giving %u.\r\n",
-                           key & 0x7f, key);
+                    printf("Scancode %u released.\r\n",
+                           key & 0x7f);
                 }
                 else
                 {
-                    printf("Scancode %u pressed.\r\n", key);
+                    printf("Scancode %u pressed.\r\n", key & 0x7f);
                 }
 
                 fflush(stdout);
