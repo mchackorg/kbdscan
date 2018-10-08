@@ -70,7 +70,7 @@ int xlatemode(void)
     if (0 != ioctl(0, KDSKBMODE, K_XLATE))
     {
         perror("ioctl KDSKBMODE K_XLATE");
-        return -1;        
+        return -1;
     }
 
     return 0;
@@ -94,7 +94,7 @@ void die(int status)
     /* Reset console to normal. */
     ttyreset(0);
     xlatemode();
-    
+
     exit(status);
 }
 
@@ -116,7 +116,7 @@ int ttyraw(int ttyfd)
      * signal characters.
      */
     raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
-    
+
     /* Flush and turn on raw mode. */
     if (0 != tcsetattr(ttyfd, TCSAFLUSH, &raw))
     {
@@ -133,7 +133,7 @@ int main(void)
     struct timeval timeout;
     int ttyfd = 0; /* standard input */
     uint8_t key;
-    
+
     /* FIXME: Set up signal handlers that calls ttyreset. */
 
     /* Save terminal setup. */
@@ -142,7 +142,7 @@ int main(void)
         printf("Couldn't save terminal settings. Exiting...\n");
         die(-1);
     }
-    
+
     /* Set terminal in raw mode, no echo. */
     if (0 != ttyraw(ttyfd))
     {
@@ -157,17 +157,17 @@ int main(void)
         fflush(stdout);
         die(-1);
     }
-    
+
     for (;;)
     {
         int found;
-        
+
         FD_ZERO(&inset);
         FD_SET(ttyfd, &inset);
 
         timeout.tv_sec = 5;
         timeout.tv_usec = 0;
-        
+
         found = select(ttyfd + 1, &inset, NULL, NULL, &timeout);
         if (-1 == found)
         {
@@ -213,6 +213,6 @@ int main(void)
         }
 
     } /* for */
-    
+
     die(0);
 }
